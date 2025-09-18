@@ -30,7 +30,7 @@ Analyzes variant calling performance in high-confidence genomic regions.
 
 ---
 
-### 2. `Difficult_Regions.ipynb`
+### 2. `Difficult Regions.ipynb`
 
 **Description**  
 Evaluates variant calling performance in **difficult genomic regions** by applying the GIAB "difficult regions" BED filter in addition to the high-confidence filters:  
@@ -46,7 +46,7 @@ https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifi
 
 ---
 
-### 3. `Non_Difficult_Regions.ipynb`
+### 3. `Non Difficult Regions.ipynb`
 
 **Description**  
 Evaluates variant calling performance in the **complement of difficult regions** using the GIAB "non-difficult regions" BED file along with the high-confidence filters:  
@@ -62,7 +62,7 @@ https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifi
 
 ---
 
-### 4. `Jaccard_and_PCA.ipynb`
+### 4. `Jaccard and PCA.ipynb`
 
 **Description**  
 Generates global comparisons of variant profiles using **all variants only** (not SNP/Indel filtered).  
