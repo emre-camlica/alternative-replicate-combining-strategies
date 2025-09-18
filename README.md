@@ -1,73 +1,88 @@
 # Alternative Replicate Combining Strategies
 
-This repository contains code and analysis used for evaluating variant calling performance under different sequencing depths and input types (FASTQ vs. BAM), as presented in the accompanying manuscript. All analyses were performed on human whole-genome sequencing (WGS) and whole-exome sequencing (WES) datasets using benchmark reference VCFs.
-
-The results are organized into three Jupyter Notebook files, each focusing on different aspects of the evaluation.
+This repository contains code and analyses used to evaluate variant calling performance under different sequencing depths and input types (FASTQ vs. BAM), as presented in the accompanying manuscript.  
+All evaluations were performed on human whole-genome sequencing (WGS) and whole-exome sequencing (WES) datasets using benchmark reference VCFs.
 
 ---
 
 ## 📁 Notebooks
 
-### 1. `High_Confidence_Regions.ipynb`
+### 1. `All.ipynb`
 
-**Description**:  
+**Description**  
 Analyzes variant calling performance in high-confidence genomic regions.  
 
-- All WGS files are filtered using only the high-confidence BED file provided by the Genome in a Bottle (GIAB) consortium:  
+- **WGS files** are filtered using the Genome in a Bottle (GIAB) high-confidence BED file:  
   https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/AshkenazimTrio/HG002_NA24385_son/latest/GRCh38/
 
-- All WES files are filtered using both the GIAB high-confidence BED file and the exome regions BED file:  
-  https://hgdownload.soe.ucsc.edu/gbdb/hg38/exomeProbesets/S04380110\_Covered.bb
+- **WES files** are filtered using both the GIAB high-confidence BED file and the exome regions BED file:  
+  https://hgdownload.soe.ucsc.edu/gbdb/hg38/exomeProbesets/S04380110_Covered.bb  
 
-**Contents**:
-- Compares called variants against the benchmark reference VCF using the `cyvcf2` library.
-- Computes standard evaluation metrics: Precision, Recall, and F1 Score.
-- Generates bar charts showing performance for each pipeline.
-- Includes Principal Component Analysis (PCA) to visualize the global structure of variant profiles.
-- Computes and visualizes a Jaccard similarity heatmap using hierarchical clustering.
+**Contents**
+- Compares called variants against benchmark reference VCFs using the `cyvcf2` library.
+- Computes standard metrics: Precision, Recall, and F1 Score.
+- Generates bar charts to visualize performance across pipelines.
+- Produces results for **All variants**, **SNPs only**, and **Indels only**.
 
-**Input files**:
+**Input files**
 - VCF files filtered for high-confidence regions (WGS and WES).
-- Benchmark VCFs for high-confidence evaluation.
+- Benchmark VCFs for evaluation.
 
 ---
 
 ### 2. `Difficult_Regions.ipynb`
 
-**Description**:  
-In addition to the high-confidence filters described above, all VCFs in this notebook were further filtered using the GIAB "difficult regions" BED file:  
-https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.5/GRCh38%40all/Union/GRCh38\_alldifficultregions.bed.gz
+**Description**  
+Evaluates variant calling performance in **difficult genomic regions** by applying the GIAB "difficult regions" BED filter in addition to the high-confidence filters:  
+https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.5/GRCh38@all/Union/GRCh38_alldifficultregions.bed.gz  
 
-**Contents**:
-- Computes Precision, Recall, and F1 Score for each pipeline by comparing called variants to the benchmark.
-- Generates bar plots to visualize performance trends across difficult genomic regions.
+**Contents**
+- Computes Precision, Recall, and F1 Score for all variants, SNPs, and Indels.
+- Generates bar plots to highlight performance differences across difficult genomic regions.
 
-**Input files**:
+**Input files**
 - VCF files filtered by both high-confidence and difficult region filters.
-- Corresponding benchmark reference VCF.
+- Benchmark reference VCF.
 
 ---
 
-### 3. `SNPs_Indels_Comparison.ipynb`
+### 3. `Non_Difficult_Regions.ipynb`
 
-**Description**:  
-In this notebook, SNP and Indel variants are evaluated separately. VCF files are first filtered using the high-confidence BED file and then filtered by variant type using `bcftools`.
+**Description**  
+Evaluates variant calling performance in the **complement of difficult regions** using the GIAB "non-difficult regions" BED file along with the high-confidence filters:  
+https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.5/GRCh38@all/Union/GRCh38_notinalldifficultregions.bed.gz  
 
-**Filtering Commands**:
-- **SNPs**:  
-  `bcftools view -v snps "$file" -o "$output"`
-- **Indels**:  
-  `bcftools view -v indels "$file" -o "$output"`
+**Contents**
+- Computes Precision, Recall, and F1 Score for all variants, SNPs, and Indels.
+- Generates bar plots to illustrate pipeline performance outside difficult regions.
 
-**Contents**:
-- Computes and compares performance metrics separately for SNPs and Indels.
-- Generates bar plots to illustrate differences between variant types across pipelines.
+**Input files**
+- VCF files filtered by high-confidence and non-difficult region filters.
+- Benchmark reference VCF.
 
 ---
 
-## 📦 Requirements
+### 4. `Jaccard_and_PCA.ipynb`
 
-To run the notebooks, the following Python packages are required:
+**Description**  
+Generates global comparisons of variant profiles using **all variants only** (not SNP/Indel filtered).  
+Includes new results for WES at 50× and 100× coverage in addition to previous datasets.
 
-```bash
-pip install cyvcf2 pandas numpy matplotlib seaborn scikit-learn
+**Contents**
+- Computes Jaccard similarity between variant sets.
+- Visualizes a Jaccard distance heatmap using hierarchical clustering.
+- Performs Principal Component Analysis (PCA) to reveal the global structure of variant profiles.
+
+---
+
+## 🔎 SNP/Indel Filtering
+
+For all three evaluation notebooks (`All.ipynb`, `Difficult_Regions.ipynb`, `Non_Difficult_Regions.ipynb`), results are generated for **All variants**, **SNPs**, and **Indels**.  
+Filtering is performed using `bcftools` as follows:
+
+- **SNPs**  
+  ```bash
+  bcftools view -v snps "$file" -o "$output"
+  - **Indels**  
+  ```bash
+  bcftools view -v indels "$file" -o "$output"
