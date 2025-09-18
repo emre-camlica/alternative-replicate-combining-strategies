@@ -66,7 +66,6 @@ https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifi
 
 **Description**  
 Generates global comparisons of variant profiles using **all variants only** (not SNP/Indel filtered).  
-Includes new results for WES at 50× and 100× coverage in addition to previous datasets.
 
 **Contents**
 - Computes Jaccard similarity between variant sets.
