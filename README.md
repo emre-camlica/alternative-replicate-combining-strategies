@@ -83,6 +83,7 @@ Filtering is performed using `bcftools` as follows:
 - **SNPs**  
   ```bash
   bcftools view -v snps "$file" -o "$output"
-  - **Indels**  
+  
+- **Indels**  
   ```bash
   bcftools view -v indels "$file" -o "$output"
