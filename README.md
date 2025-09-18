@@ -95,6 +95,6 @@ Filtering is performed using `bcftools` as follows:
   bcftools view -v indels "$file" -o "$output"
 
 ## 📦 Requirements 
-To run the notebooks, the following Python packages are required:
+To run the notebooks, the following Python packages can be installed:
   ```bash
   pip install cyvcf2 pandas numpy matplotlib seaborn scikit-learn
