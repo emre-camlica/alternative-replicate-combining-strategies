@@ -94,6 +94,39 @@ Filtering is performed using `bcftools` as follows:
   ```bash
   bcftools view -v indels "$file" -o "$output"
 
+---
+
+### 5. `Variant Counts.ipynb`
+
+**Description**  
+Counts the total number of variants and computes the **True Positive (TP)**, **False Positive (FP)**, and **False Negative (FN)** counts for each VCF file.  
+This notebook provides a more detailed breakdown of variant calling results beyond summary metrics.
+
+**Contents**
+- Computes and outputs:
+  - Total number of variants.
+  - TP, FP, and FN counts for each dataset.
+
+**Input files**
+- All evaluated VCF files (WGS and WES at multiple depths).
+- Corresponding benchmark VCFs.
+
+---
+
+### 6. `Jaccard and PCA.ipynb`
+
+**Description**  
+Generates global comparisons of variant profiles using **all variants only** (not SNP/Indel filtered).  
+This notebook includes the latest WES datasets at 50× and 100× coverage in addition to all previous datasets.
+
+**Contents**
+- Computes Jaccard similarity between variant sets.
+- Visualizes a Jaccard distance heatmap using hierarchical clustering.
+- Performs Principal Component Analysis (PCA) to reveal the global structure of variant profiles.
+
+**Input files**
+- All VCF files filtered by high-confidence (and exome regions for WES).
+
 ## 📦 Requirements 
 To run the notebooks, the following Python packages can be installed:
   ```bash
