@@ -131,3 +131,7 @@ This notebook includes the latest WES datasets at 50× and 100× coverage in add
 To run the notebooks, the following Python packages can be installed:
   ```bash
   pip install cyvcf2 pandas numpy matplotlib seaborn scikit-learn
+
+## License
+This project is licensed under the MIT License – see the LICENSE file for details.
+
