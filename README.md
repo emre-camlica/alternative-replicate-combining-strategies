@@ -74,28 +74,6 @@ Generates global comparisons of variant profiles using **all variants only** (no
 
 ---
 
-## 🔎 Filtering
-
-### High-confidence & Exome Filtering
-- **WGS files** are filtered using the GIAB high-confidence BED file.  
-- **WES files** are filtered using both the GIAB high-confidence BED file and the exome regions BED file.  
-
-This ensures that only variants within trusted callable regions (and within captured exome regions for WES) are included in the evaluation.
-
-### SNP/Indel Filtering
-For all three evaluation notebooks (`All.ipynb`, `Difficult Regions.ipynb`, `Non Difficult Regions.ipynb`), results are generated for **All variants**, **SNPs**, and **Indels**.  
-Filtering is performed using `bcftools` as follows:
-
-- **SNPs**  
-  ```bash
-  bcftools view -v snps "$file" -o "$output"
-
-- **Indels**  
-  ```bash
-  bcftools view -v indels "$file" -o "$output"
-
----
-
 ### 5. `Variant Counts.ipynb`
 
 **Description**  
