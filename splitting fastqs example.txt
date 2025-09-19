@@ -1,0 +1,36 @@
+#!/bin/bash
+#SBATCH -J "Seperating srr fastqs"
+#SBATCH -A gdvak1
+#SBATCH -p defq
+#SBATCH -o slurm.%j.out
+
+# Input FASTQ files
+FASTQ1="SRR_50x_1.fastq.gz"
+FASTQ2="SRR_50x_2.fastq.gz"
+
+# Get total number of reads (each read = 4 lines in FASTQ)
+TOTAL_READS=$(zcat $FASTQ1 | wc -l)
+TOTAL_READS=$((TOTAL_READS / 4))  # Convert line count to read count
+
+# Compute the number of reads per split (10x coverage per split)
+SPLIT_READS=$((TOTAL_READS / 5))
+
+# Function to extract reads from FASTQ
+extract_reads() {
+    local input_fastq=$1
+    local output_fastq=$2
+    local start_read=$3
+    local num_reads=$4
+    
+    zcat "$input_fastq" | tail -n +$(( (start_read - 1) * 4 + 1 )) | head -n $((num_reads * 4)) | gzip > "$output_fastq"
+}
+
+# Generate 5 FASTQ file pairs
+for i in {1..5}; do
+    START_READ=$(( (i - 1) * SPLIT_READS + 1 ))
+    extract_reads $FASTQ1 "SRR_10x_${i}_1.fastq.gz" $START_READ $SPLIT_READS
+    extract_reads $FASTQ2 "SRR_10x_${i}_2.fastq.gz" $START_READ $SPLIT_READS
+    echo "Generated FASTQ pair SRR_10x_${i}_1.fastq.gz and SRR_10x_${i}_2.fastq.gz."
+done
+
+echo "FASTQ splitting complete."
